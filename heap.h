@@ -21,9 +21,16 @@ struct MinHeap {
     }
 
     int pop(int weightArr[]) {
-        // TODO: remove and return smallest index
-        // Replace root with last element, then call downheap()
-        return -1; // placeholder
+        if (size <= 0) { //throws error if heap is empty
+            throw std::runtime_error ("Empty");
+        }
+        size--;
+        int min = data[0]; //stores root before pop for return
+        if (size > 0) { // replaces root
+            data[0] = data[size];
+            downheap(0, weightArr);
+        }
+        return min; //returns stored root (smallest index)
     }
 
     void upheap(int pos, int weightArr[]) {
