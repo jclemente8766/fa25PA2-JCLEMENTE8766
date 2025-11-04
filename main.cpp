@@ -48,7 +48,6 @@ int main() {
     Function Definitions (Students will complete logic)
   ------------------------------------------------------*/
 
-// Step 1: Read file and count frequencies
 void buildFrequencyTable(int freq[], const string& filename) {
     ifstream file(filename);
     if (!file.is_open()) {
@@ -71,7 +70,6 @@ void buildFrequencyTable(int freq[], const string& filename) {
     cout << "Frequency table built successfully.\n";
 }
 
-// Step 2: Create leaf nodes for each character
 int createLeafNodes(int freq[]) {
     int nextFree = 0;
     for (int i = 0; i < 26; ++i) {
@@ -87,21 +85,27 @@ int createLeafNodes(int freq[]) {
     return nextFree;
 }
 
-// Step 3: Build the encoding tree using heap operations
 int buildEncodingTree(int nextFree) {
-    // TODO:
-    // 1. Create a MinHeap object.
-    // 2. Push all leaf node indices into the heap.
-    // 3. While the heap size is greater than 1:
-    //    - Pop two smallest nodes
-    //    - Create a new parent node with combined weight
-    //    - Set left/right pointers
-    //    - Push new parent index back into the heap
-    // 4. Return the index of the last remaining node (root)
-    return -1; // placeholder
+    MinHeap heap; //created minheap
+    for (int i = 0; i < nextFree; i++) { //push leaf node indices into heap
+        heap.push(i, weightArr);
+    }
+    while (heap.size > 1) { //combines nodes
+        int rightPop = heap.pop(weightArr); //deletes right smallest
+        int leftPop = heap.pop(weightArr); //deletes left smallest
+
+        int parent = nextFree; //new parent node
+        weightArr[parent] = weightArr[nextFree]; //combination of two smallest nodes
+        leftArr[parent] = leftPop;
+        rightArr[parent] = rightPop;
+        charArr[parent] = 0;
+
+        heap.push(parent, weightArr); //combines and puts back in heap
+        nextFree++; // incrementer
+    }
+    return heap.pop(weightArr); //returns new root
 }
 
-// Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
     // TODO:
     // Use stack<pair<int, string>> to simulate DFS traversal.
@@ -109,7 +113,6 @@ void generateCodes(int root, string codes[]) {
     // Record code when a leaf node is reached.
 }
 
-// Step 5: Print table and encoded message
 void encodeMessage(const string& filename, string codes[]) {
     cout << "\nCharacter : Code\n";
     for (int i = 0; i < 26; ++i) {
