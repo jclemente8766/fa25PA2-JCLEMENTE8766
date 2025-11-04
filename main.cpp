@@ -95,7 +95,7 @@ int buildEncodingTree(int nextFree) {
         int leftPop = heap.pop(weightArr); //deletes left smallest
 
         int parent = nextFree; //new parent node
-        weightArr[parent] = weightArr[nextFree]; //combination of two smallest nodes
+        weightArr[parent] = weightArr[leftPop] + weightArr[rightPop]; //combination of two smallest nodes
         leftArr[parent] = leftPop;
         rightArr[parent] = rightPop;
         charArr[parent] = 0;
@@ -107,10 +107,7 @@ int buildEncodingTree(int nextFree) {
 }
 
 void generateCodes(int root, string codes[]) {
-    // TODO:
-    // Use stack<pair<int, string>> to simulate DFS traversal.
-    // Left edge adds '0', right edge adds '1'.
-    // Record code when a leaf node is reached.
+
 }
 
 void encodeMessage(const string& filename, string codes[]) {
