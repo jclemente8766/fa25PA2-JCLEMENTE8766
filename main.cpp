@@ -107,7 +107,28 @@ int buildEncodingTree(int nextFree) {
 }
 
 void generateCodes(int root, string codes[]) {
+    stack<pair<int, string>> stack; //declares stack
+    stack.push({root, ""}); // starts traverse
 
+    while (stack.size() > 0) { // iterates through nodes
+        pair<int, string> curr = stack.top(); // top node and path
+        stack.pop();
+        int node = curr.first; //current node
+        string currCode = curr.second; // current so far
+        if (leftArr[node] == -1 && rightArr[node] == -1) { // checks if node has children
+            int child = charArr[node] - 'a'; //converts to array index
+            codes[child] = currCode;
+        }
+        else {
+            if (rightArr[node] != -1) { // pushes so right is processed, left processed next (LIFO = stack)
+                stack.push({rightArr[node], currCode + "1"});
+            }
+            if (leftArr[node] != -1) {
+                stack.push({leftArr[node], currCode + "0"});
+            }
+        }
+
+    }
 }
 
 void encodeMessage(const string& filename, string codes[]) {
